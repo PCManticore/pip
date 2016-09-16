@@ -289,10 +289,7 @@ _finder_registry = {
 }
 
 try:
-    try:
-        import _frozen_importlib_external as _fi
-    except ImportError:
-        import _frozen_importlib as _fi
+    import _frozen_importlib_external as _fi
     _finder_registry[_fi.SourceFileLoader] = ResourceFinder
     _finder_registry[_fi.FileFinder] = ResourceFinder
     del _fi
@@ -324,6 +321,7 @@ def finder(package):
                                    'only for a package')
         loader = getattr(module, '__loader__', None)
         finder_maker = _finder_registry.get(type(loader))
+        print(loader, type(loader))
         if finder_maker is None:
             raise DistlibException('Unable to locate finder for %r' % package)
         result = finder_maker(module)
